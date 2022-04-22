@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--Linking other files-->
+	<link rel="stylesheet" href="./style.css">
+	<!--For Discord embeds-->
+	<meta property="og:title" content="Genshin Impact Weapons" />
+	<meta property="og:site_name" content="A site by Nerdopedia" />
+	<meta name="theme-color" content="#8704b6">
+	<!--For the nice look-->
+	<title>Genshin Impact Weapons</title>
+</head>
+
+<body>
+	<main>
+		<header class="heading">
+			<h1 style="text-decoration: underline;">Genshin Impact Weapons</h1>
+			<h3 id="splash">By Nerdopedia</h3>
+		</header>
+		<p />
+		<div class="container">
+
+			<flexbox id='flex'>
+				Please Wait
+			</flexbox>
+		</div>
+	</main>
+</body>
+
+<script>
+	var mainsec = ''
+	function httpGet(theUrl) {
+		let xmlHttpReq = new XMLHttpRequest();
+		xmlHttpReq.open("GET", theUrl, false);
+		xmlHttpReq.send(null);
+		return xmlHttpReq.responseText;
+	}
+	var cache = (httpGet('https://genshin-app-api.herokuapp.com/api/weapons?infoDataSize=all'));
+	cacheObj = JSON.parse(cache)
+	var cacheArr = Object.values(cacheObj.payload.weapons)
+	// console.log(cacheArr)
+		cacheArr.forEach(edit);
+		function edit(item, index, arr) {
+			mainsec +=
+				`<div class="flex-elem">
+                    <div class="clickable">
+                        <a>
+                            <img src="${item.iconUrl}" width="32" height="32" style="border-radius: 20px;" loading="lazy"/>
+                            <p /><h3>${item.name}(${item.baseAtk === "TBA"? 'Unreleased' : item.baseAtk + 'ATK'} ${item.weaponType})</h3><h4>${item.rarity}⭐<p>${item.effectName}: ${item.description}</h4>
+                        </a>
+                    </div>
+                </div>
+                <br>`
+		}
+	document.getElementById("flex").innerHTML = mainsec;
+</script>
+<footer style="text-align: center;   font-family: Sans-Serif;"><a href="./index.html">Take me Home</a></footer>
+</html>

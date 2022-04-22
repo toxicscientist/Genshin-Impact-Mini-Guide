@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--Linking other files-->
+	<link rel="stylesheet" href="./style.css">
+	<!--For Discord embeds-->
+	<meta property="og:title" content="Genshin Impact Characters" />
+	<meta property="og:site_name" content="A site by Nerdopedia" />
+	<meta name="theme-color" content="#8704b6">
+	<!--For the nice look-->
+	<title>Genshin Impact Characters</title>
+</head>
+
+<body>
+	<main>
+		<header class="heading">
+			<h1 style="text-decoration: underline;">Genshin Impact Characters</h1>
+			<h3 id="splash">By Nerdopedia</h3>
+		</header>
+		<p />
+		<div class="container">
+
+			<flexbox id='flex'>
+				Please Wait
+			</flexbox>
+		</div>
+	</main>
+</body>
+
+<script>
+	var mainsec = ''
+	function httpGet(theUrl) {
+		let xmlHttpReq = new XMLHttpRequest();
+		xmlHttpReq.open("GET", theUrl, false);
+		xmlHttpReq.send(null);
+		return xmlHttpReq.responseText;
+	}
+	var cache = (httpGet('https://genshin-app-api.herokuapp.com/api/characters?infoDataSize=minimal'));
+	cacheObj = JSON.parse(cache)
+	var cacheArr = Object.values(cacheObj.payload.characters)
+	// console.log(cacheArr)
+		cacheArr.forEach(edit);
+		function edit(item, index, arr) {
+			mainsec +=
+				`<div class="flex-elem">
+                    <div class="clickable" style="background: #${item.element=='Pyro'? `ef7a35";`: item.element=='Hydro'? `4bc3f1";`: item.element=='Anemo'? `75c3a9";` : item.element=='Electro'? `b18fc2";` : item.element=='Dendro'? `a6c938";`: item.element=='Cryo'? `8ABAC6";`: item.element=='Geo'? `fab72e";`: `333";`}>
+                        <a>
+                            <img src="${item.iconURL}" width="32" height="32" style="border-radius: 20px;" loading="lazy"/>
+                            <p /><h3>${item.name} (${item.element} ${item.weaponType} user)</h3><h4>${item.rarity}⭐<p>${item.description} Birthday: ${item.birthday}. Nation: ${item.nation?item.nation:"Unknown"}</h4>
+                        </a>
+                    </div>
+                </div>
+                <br>`
+		}
+	if(!location.search){
+		var selectedTitle = 'Genshin Impact Characters'
+		var selectedBody = 'By Nerdopedia'
+	}
+	document.getElementById("flex").innerHTML = mainsec;
+</script>
+<footer style="text-align: center;   font-family: Sans-Serif;"><a href="./index.html">Take me Home</a></footer>
+</html>
